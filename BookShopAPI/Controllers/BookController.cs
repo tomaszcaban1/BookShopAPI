@@ -18,9 +18,9 @@ namespace BookShopAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<BookDto>> GetBooks([FromRoute] int bookShopId)
+        public ActionResult<IEnumerable<BookDto>> GetBooks([FromRoute] int bookShopId, [FromQuery] BookQuery bookQuery)
         {
-            var bookDtos = _bookService.GetAll(bookShopId);
+            var bookDtos = _bookService.GetAll(bookShopId, bookQuery);
 
             return Ok(bookDtos);
         }

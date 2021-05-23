@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using BookShopAPI.Models;
 using BookShopAPI.Models.Book;
 
 namespace BookShopAPI.Services.Interfaces
 {
     public interface IBookService
     {
-        IEnumerable<BookDto> GetAll(int bookShopId);
+        PageResult<BookDto> GetAll(int bookShopId, BookQuery bookQuery);
         BookDto GetById(int bookShopId, int bookId);
         int Create(int bookShopId, CreateBookDto createBookDto);
         void DeleteAll(int bookShopId);

@@ -8,5 +8,6 @@ namespace BookShopAPI.Constants
     public class ValidatorMessage
     {
         internal static readonly string NameInUse = "Name is in use";
+        internal static readonly string PageSize = "Page size must be in ";
     }
 }

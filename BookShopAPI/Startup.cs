@@ -7,6 +7,8 @@ using BookShopAPI.Entities.DbContext;
 using BookShopAPI.Guards;
 using BookShopAPI.Guards.Interfaces;
 using BookShopAPI.Middlewares;
+using BookShopAPI.Models.Book;
+using BookShopAPI.Models.Book.Validators;
 using BookShopAPI.Models.BookShop;
 using BookShopAPI.Models.BookShop.Validators;
 using BookShopAPI.Seeder;
@@ -39,6 +41,7 @@ namespace BookShopAPI
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IBookServiceGuard, BookServiceGuard>();
             services.AddScoped<IValidator<CreateBookShopDto>, CreateBookShopDtoValidator>();
+            services.AddScoped<IValidator<BookQuery>, BookQueryValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
