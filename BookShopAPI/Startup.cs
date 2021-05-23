@@ -7,9 +7,13 @@ using BookShopAPI.Entities.DbContext;
 using BookShopAPI.Guards;
 using BookShopAPI.Guards.Interfaces;
 using BookShopAPI.Middlewares;
+using BookShopAPI.Models.BookShop;
+using BookShopAPI.Models.BookShop.Validators;
 using BookShopAPI.Seeder;
 using BookShopAPI.Services;
 using BookShopAPI.Services.Interfaces;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace BookShopAPI
 {
@@ -25,8 +29,7 @@ namespace BookShopAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation();
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddDbContext<BookShopDbContext>();
             services.AddScoped<BookShopSeeder>();
@@ -35,6 +38,7 @@ namespace BookShopAPI
             services.AddScoped<IBookShopService, BookShopService>();
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IBookServiceGuard, BookServiceGuard>();
+            services.AddScoped<IValidator<CreateBookShopDto>, CreateBookShopDtoValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
