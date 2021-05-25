@@ -31,11 +31,11 @@ namespace BookShopAPI.Services
         public PageResult<BookDto> GetAll(int bookShopId, BookQuery bookQuery)
         {
             var bookShop = GetBookShopIncludeBooksById(bookShopId);
-            var books = GetBooksByQuery(bookShop, bookQuery);
+            var (books, booksTotalCount) = GetBooksByQuery(bookShop, bookQuery);
 
-            var booksDto = _mapper.Map<IEnumerable<BookDto>>(books.Item1);
+            var booksDto = _mapper.Map<IEnumerable<BookDto>>(books);
 
-            var bookPageResult = new PageResult<BookDto>(booksDto, books.Item2, bookQuery.PageSize, bookQuery.PageNumber);
+            var bookPageResult = new PageResult<BookDto>(booksDto, booksTotalCount, bookQuery.PageSize, bookQuery.PageNumber);
             return bookPageResult;
         }
 
@@ -100,21 +100,21 @@ namespace BookShopAPI.Services
             return bookShop;
         }
 
-        private Tuple<IEnumerable<Book>, int> GetBooksByQuery(BookShop bookShop, BookQuery bookQuery)
+        private static Tuple<IEnumerable<Book>, int> GetBooksByQuery(BookShop bookShop, BookQuery bookQuery)
         {
             var filteredBooks = bookShop.Books
-                .Where(b => bookQuery.SearchAuthor is null
-                            || b.Author.ToUpper().Contains(bookQuery.SearchAuthor.ToUpper()));
+                .Where(b => bookQuery.SearchAuthor == null
+                            || b.Author.ToUpper().Contains(bookQuery.SearchAuthor.ToUpper())).ToList();
 
             var books = filteredBooks
                 .Skip(bookQuery.PageSize * (bookQuery.PageNumber - 1))
                 .Take(bookQuery.PageSize)
                 .ToList();
 
-            var totalCount = filteredBooks.Count();
+            var totalCount = filteredBooks.Count;
             var result = new Tuple<IEnumerable<Book>, int>(books, totalCount);
 
-           return result;
+            return result;
         }
     }
 }
