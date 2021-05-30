@@ -11,5 +11,7 @@ namespace BookShopAPI.Services.Interfaces
         int Create(int bookShopId, CreateBookDto createBookDto);
         void DeleteAll(int bookShopId);
         void DeleteById(int bookShopId, int bookId);
+        void Update(int bookShopId, int bookId, UpdateBookDto updateBookDto);
+        PageResult<BookDto> GetAllBySQL(int bookShopId, BookQuery bookQuery);
     }
 }

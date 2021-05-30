@@ -16,6 +16,7 @@ using BookShopAPI.Services;
 using BookShopAPI.Services.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookShopAPI
 {
@@ -33,7 +34,9 @@ namespace BookShopAPI
         {
             services.AddControllers().AddFluentValidation();
             services.AddAutoMapper(this.GetType().Assembly);
-            services.AddDbContext<BookShopDbContext>();
+            //services.AddDbContext<BookShopDbContext>();
+            services.AddDbContext<BookShopDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("LocalDB")));
             services.AddScoped<BookShopSeeder>();
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddSwaggerGen();
@@ -47,6 +50,7 @@ namespace BookShopAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, BookShopSeeder seeder)
         {
+            app.UseResponseCaching();
             app.UseStaticFiles();
 
             seeder.Seed();

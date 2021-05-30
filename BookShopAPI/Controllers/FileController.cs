@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.StaticFiles;
 namespace BookShopAPI.Controllers
 {
     [Route("file")]
+    [ResponseCache(Duration = 100, VaryByQueryKeys = new []{"fileName"})]
     public class FileController : ControllerBase
     {
         [HttpGet]

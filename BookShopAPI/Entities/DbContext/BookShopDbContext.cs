@@ -1,15 +1,20 @@
-﻿    using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace BookShopAPI.Entities.DbContext
 {
     public class BookShopDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        private readonly string _connectionString = "Server=(LocalDB)\\MSSQLLocalDB;Database=BookShopDb;Trusted_Connection=True";
+    //   private readonly string _connectionString = "Server=(LocalDB)\\MSSQLLocalDB;Database=BookShopDb;Trusted_Connection=True";
 
         public DbSet<BookShop> BookShops { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Book> Books { get; set; }
+
+        public BookShopDbContext(DbContextOptions<BookShopDbContext> options)
+            : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +40,10 @@ namespace BookShopAPI.Entities.DbContext
                 .Property(b => b.Title)
                 .IsRequired()
                 .HasMaxLength(100);
+
+            modelBuilder.Entity<Book>()
+                .Property(b => b.Price)
+                .HasPrecision(6, 2);
         }
 
         private void BookShopModelCreating(ModelBuilder modelBuilder)
@@ -45,9 +54,9 @@ namespace BookShopAPI.Entities.DbContext
                 .HasMaxLength(100);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_connectionString);
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(_connectionString);
+        //}
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using BookShopAPI.Models.Book;
-using BookShopAPI.Models.BookShop;
 using BookShopAPI.Services.Interfaces;
 
 namespace BookShopAPI.Controllers
@@ -55,6 +54,14 @@ namespace BookShopAPI.Controllers
             _bookService.DeleteById(bookShopId, bookId);
 
             return NoContent();
+        }
+
+        [HttpPut("{bookId:int}")]
+        public ActionResult UpdateBook([FromRoute] int bookShopId, [FromRoute] int bookId, [FromBody] UpdateBookDto updateBookDto)
+        {
+            _bookService.Update(bookShopId, bookId, updateBookDto);
+
+            return Ok();
         }
     }
 }

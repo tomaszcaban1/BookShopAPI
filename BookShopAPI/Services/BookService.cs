@@ -10,7 +10,7 @@ using BookShopAPI.Guards.Interfaces;
 using BookShopAPI.Models;
 using BookShopAPI.Models.Book;
 using BookShopAPI.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using BookShopAPI.Services.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookShopAPI.Services
@@ -30,8 +30,9 @@ namespace BookShopAPI.Services
 
         public PageResult<BookDto> GetAll(int bookShopId, BookQuery bookQuery)
         {
-            var bookShop = GetBookShopIncludeBooksById(bookShopId);
-            var (books, booksTotalCount) = GetBooksByQuery(bookShop, bookQuery);
+            _bookServiceGuard.CheckBookShopExistsById(bookShopId);
+
+            var (books, booksTotalCount) = GetBooksByQuery(bookShopId, bookQuery);
 
             var booksDto = _mapper.Map<IEnumerable<BookDto>>(books);
 
@@ -44,9 +45,9 @@ namespace BookShopAPI.Services
             var bookShop = GetBookShopIncludeBooksById(bookShopId);
             var book = GetBookFromBookShopById(bookShop, bookId);
 
-            var booksDto = _mapper.Map<BookDto>(book);
+            var bookDto = _mapper.Map<BookDto>(book);
 
-            return booksDto;
+            return bookDto;
         }
 
         public int Create(int bookShopId, CreateBookDto createBookDto)
@@ -79,6 +80,17 @@ namespace BookShopAPI.Services
             _dbContext.SaveChanges();
         }
 
+        public void Update(int bookShopId, int bookId, UpdateBookDto updateBookDto)
+        {
+            var bookShop = GetBookShopIncludeBooksById(bookShopId);
+            var book = GetBookFromBookShopById(bookShop, bookId);
+
+            book.Description = updateBookDto.Description;
+            book.Price = updateBookDto.Price;
+
+            _dbContext.SaveChanges();
+        }
+
         private Book GetBookFromBookShopById(BookShop bookShop, int bookId)
         {
             var book = bookShop.Books.FirstOrDefault(b => b.Id == bookId);
@@ -100,21 +112,43 @@ namespace BookShopAPI.Services
             return bookShop;
         }
 
-        private static Tuple<IEnumerable<Book>, int> GetBooksByQuery(BookShop bookShop, BookQuery bookQuery)
+        private Tuple<IEnumerable<Book>, int> GetBooksByQuery(int bookShopId, BookQuery bookQuery)
         {
-            var filteredBooks = bookShop.Books
+            var filteredBooks = _dbContext.Books
                 .Where(b => bookQuery.SearchAuthor == null
-                            || b.Author.ToUpper().Contains(bookQuery.SearchAuthor.ToUpper())).ToList();
+                            || b.Author.ToUpper().Contains(bookQuery.SearchAuthor.ToUpper()));
+
+            if (!string.IsNullOrEmpty(bookQuery.SortBy))
+            {
+                filteredBooks = filteredBooks.OrderBy(bookQuery.SortBy, bookQuery.SortDirection);
+            }
 
             var books = filteredBooks
                 .Skip(bookQuery.PageSize * (bookQuery.PageNumber - 1))
                 .Take(bookQuery.PageSize)
                 .ToList();
 
-            var totalCount = filteredBooks.Count;
+            var totalCount = filteredBooks.Count();
             var result = new Tuple<IEnumerable<Book>, int>(books, totalCount);
 
             return result;
+        }
+
+        public PageResult<BookDto> GetAllBySQL(int bookShopId, BookQuery bookQuery)
+        {
+            bookQuery.SortBy ??= SqlConstants.DefaultSortedColumn;
+
+            var books = _dbContext.Books.FromSqlRaw($"SelectBooks '{bookQuery.PageNumber}'" +
+                                                    $", '{bookQuery.PageSize}'" +
+                                                    $", '{bookQuery.SortBy}'" +
+                                                    $", '{bookQuery.SortDirection}'"+
+                                                    $", '{bookQuery.SearchAuthor}'").ToList();
+
+
+            var booksDto = _mapper.Map<IEnumerable<BookDto>>(books);
+
+            var bookPageResult = new PageResult<BookDto>(booksDto, 1000, bookQuery.PageSize, bookQuery.PageNumber);
+            return bookPageResult;
         }
     }
 }
