@@ -34,9 +34,8 @@ namespace BookShopAPI
         {
             services.AddControllers().AddFluentValidation();
             services.AddAutoMapper(this.GetType().Assembly);
-            //services.AddDbContext<BookShopDbContext>();
             services.AddDbContext<BookShopDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalDB")));
+                options.UseSqlServer(Configuration.GetConnectionString("BookShopDbConnection")));
             services.AddScoped<BookShopSeeder>();
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddSwaggerGen();

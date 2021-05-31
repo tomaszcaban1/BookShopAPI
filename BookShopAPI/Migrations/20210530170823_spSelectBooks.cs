@@ -24,25 +24,30 @@ namespace BookShopAPI.Migrations
 				, @RowsOfPage int
 				, @SortedBy nvarchar(10) = 'Id'
 				, @SortDirection nvarchar(4) = 'ASC'
-				, @SearchAuthor nvarchar(30) = ''
+				, @SearchAuthor nvarchar(30)
 			)
             AS
             BEGIN
 			    DECLARE @sql NVARCHAR(MAX);
 				DECLARE @result int = (@PageNumber-1)*@RowsOfPage;
+				DECLARE @where NVARCHAR(MAX);
+
+				IF (@SearchAuthor IS NULL)
+					SET @where = '';
+				ELSE 
+					SET @where = 'WHERE Books.Author like ''%' + @SearchAuthor + '%''';
 
 				SET @sql = N'
                 SELECT 
 					* 
 				FROM 
-					dbo.Books as Books			
-					WHERE 
-					Books.Author like ''%' + @SearchAuthor + '%''
-				ORDER BY (SELECT ' + QUOTENAME(@SortedBy) + ') ' + @SortDirection
+					dbo.Books as Books '
+				+ @where
+				+ ' ORDER BY (SELECT ' + QUOTENAME(@SortedBy) + ') ' + @SortDirection
 				+ ' OFFSET ' + CONVERT(varchar(10), @result)  + ' ROWS '
 				+ ' FETCH NEXT ' + CONVERT(varchar(10), @RowsOfPage)  + ' ROWS ONLY;';
 
-				print @sql;
+				--print @sql;
 				EXEC sp_executesql @sql;
             END
 

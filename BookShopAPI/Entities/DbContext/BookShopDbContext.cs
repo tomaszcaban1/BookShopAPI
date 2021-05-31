@@ -4,8 +4,6 @@ namespace BookShopAPI.Entities.DbContext
 {
     public class BookShopDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-    //   private readonly string _connectionString = "Server=(LocalDB)\\MSSQLLocalDB;Database=BookShopDb;Trusted_Connection=True";
-
         public DbSet<BookShop> BookShops { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Address> Addresses { get; set; }
@@ -53,10 +51,5 @@ namespace BookShopAPI.Entities.DbContext
                 .IsRequired()
                 .HasMaxLength(100);
         }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(_connectionString);
-        //}
     }
 }

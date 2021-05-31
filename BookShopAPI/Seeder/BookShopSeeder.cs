@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BookShopAPI.Entities;
 using BookShopAPI.Entities.DbContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookShopAPI.Seeder
 {
@@ -20,6 +21,12 @@ namespace BookShopAPI.Seeder
         {
             if (_dbContext.Database.CanConnect())
             {
+                var pendingMigrations = _dbContext.Database.GetPendingMigrations();
+                if (pendingMigrations != null && pendingMigrations.Any())
+                {
+                    _dbContext.Database.Migrate();
+                }
+
                 if (!_dbContext.BookShops.Any())
                 {
                     var mainBookShop = GetMainBookShop();
