@@ -9,7 +9,7 @@
 * [Contact](#contact)
 
 ## General Information
-- My goal was to design and meet with the philosophies of creating an  RESTful Web API.
+- My goal was to design and meet with the philosophies of creating a RESTful Web API.
 
 ## Technologies Used
 - .NET 5.0 
@@ -20,6 +20,24 @@
 - NLog.Web.AspNetCore 4.12.0
 - washbuckle.AspNetCore 6.1.4
 - MS SQL v2014 (Azure)
+
+## Programming tricks
+- How does one go about using it?
+
+`        private readonly IBookService _bookService;
+
+        public BookController(IBookService bookService)
+        {
+            _bookService = bookService;
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<BookDto>> GetBooks([FromRoute] int bookShopId, [FromQuery] BookQuery bookQuery)
+        {
+            var bookDtos = _bookService.GetAll(bookShopId, bookQuery);
+
+            return Ok(bookDtos);
+        }`
 
 ## Acknowledgements
 - This project was based on [pluralsight ASP.NET Core path](https://app.pluralsight.com/paths/skills/aspnet-core).
