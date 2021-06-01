@@ -24,8 +24,8 @@
 ## Programming tricks
 - How does one go about using it?
 
-`        public BookController(IBookService bookService) {
-            _bookService = bookService;
+`public BookController(IBookService bookService) {
+ _bookService = bookService;
         }
 
         [HttpGet]
