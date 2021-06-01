@@ -24,18 +24,7 @@
 ## Programming tricks
 - How does one go about using it?
 
-       `private readonly IBookService _bookService;
-        public BookController(IBookService bookService)
-        {
-            _bookService = bookService;
-        }
-
-        [HttpGet]
-        public ActionResult<IEnumerable<BookDto>> GetBooks([FromRoute] int bookShopId, [FromQuery] BookQuery bookQuery)
-        {
-            var bookDtos = _bookService.GetAll(bookShopId, bookQuery);
-            return Ok(bookDtos);
-        }`
+`write-your-code-here`
 
 ## Acknowledgements
 - This project was based on [pluralsight ASP.NET Core path](https://app.pluralsight.com/paths/skills/aspnet-core).
