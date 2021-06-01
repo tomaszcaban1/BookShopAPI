@@ -22,9 +22,15 @@
 - MS SQL v2014 (Azure)
 
 ## Programming tricks
-- How does one go about using it?
-
-`public`
+- Low level of coupling, modules depend on abstractions (interfaces). Business logic of controllers are located in services which are registered into the dependency injection container.
+- dto models were used to communicate with the user (mapping by AutoMapper). 
+- Added middleware to catch an exceptions (e.g. created NotFoundException)
+- nlog is used to log information about application operation.
+- Added models validator (FluentValidation)
+- Added support for static files 
+- Added pagination to some GET requests (added extension method OrderBy/OrderbyDescending to simplify LINQ command)
+- Used static Guard class as a defensing code approach
+- Added Swagger endpoint
 
 ## Acknowledgements
 - This project was based on [pluralsight ASP.NET Core path](https://app.pluralsight.com/paths/skills/aspnet-core).
