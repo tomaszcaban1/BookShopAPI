@@ -1,7 +1,7 @@
 # BookShopAPI
 
 > A .Net 5 implementation of a really simple bookshop api management system. Project was created for learning programming in ASP.NET Core for .NET 5, Entity Framework Core 5 and publish it to Azure portal.
-> Live demo [_here_](https://bookshop-api-app.azurewebsites.net/swagger/index.html). 
+> Live Swagger UI [_here_](https://bookshop-api-app.azurewebsites.net/swagger/index.html). 
 
 ## Table of Contents
 * [General Info](#general-information)
