@@ -28,9 +28,10 @@
 - nlog is used to log information about application operation.
 - Added models validator (FluentValidation)
 - Added support for static files 
-- Added pagination to some GET requests (added extension method OrderBy/OrderbyDescending to simplify LINQ command)
+- Added pagination to some GET requests (plus extra extension method OrderBy/OrderbyDescending to simplify LINQ command)
 - Used static Guard class as a defensing code approach
 - Added Swagger endpoint
+- One http request run SQL procedure to get data
 
 ## Acknowledgements
 - This project was based on [pluralsight ASP.NET Core path](https://app.pluralsight.com/paths/skills/aspnet-core).
