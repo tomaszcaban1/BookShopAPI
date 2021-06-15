@@ -23,8 +23,35 @@
 - washbuckle.AspNetCore 6.1.4
 - MS SQL v2014 (Azure)
 
-## api request examples
-
+## api request examples e.g. https://reqbin.com/
+- GET:
+  - https://bookshop-api-app.azurewebsites.net/api/SQL/BookShop/1/booksql/?PageNumber=1&SearchAuthor=love&SortBy=Price&PageSize=10&SortDirection=ASC
+  - https://bookshop-api-app.azurewebsites.net/api/BookShop/1/book/?PageNumber=1&SearchAuthor=love&SortBy=Price&PageSize=10&SortDirection=ASC
+  - https://bookshop-api-app.azurewebsites.net/api/BookShop/2/Book/4006
+  - https://bookshop-api-app.azurewebsites.net/api/BookShop/2
+- POST:
+  - https://bookshop-api-app.azurewebsites.net/api/BookShop/
+body JSON:
+{
+    "Name": "Nowa księgarnia TEST AAA",
+    "Description": "Nowa księgarnia 10",
+    "ContactEmail": "nowaksiegarnia4@ccc.pl",
+    "ContactNumber1": "666-999-555",
+    "ContactNumber2": "333-444-333",
+    "City": "Warszawa",
+    "Street": "Plac Niepodległości",
+    "StreetNumber": 10,
+    "PostalCode": "97-330"
+}
+- PUT:
+  - https://bookshop-api-app.azurewebsites.net/api/BookShop/2/Book/4006
+body JSON:
+{
+    "description": "Comedy NEW",
+    "price": 100
+}
+- DELETE:
+  - https://bookshop-api-app.azurewebsites.net/api/BookShop/2/Book/502
 
 ## Programming tricks
 - Low level of coupling, modules depend on abstractions (interfaces). Business logic of controllers are located in services which are registered into the dependency injection container.
