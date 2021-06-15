@@ -31,7 +31,7 @@
   - https://bookshop-api-app.azurewebsites.net/api/BookShop/2
 - POST:
   - https://bookshop-api-app.azurewebsites.net/api/BookShop/
-body JSON:
+-- body JSON:
 {
     "Name": "Nowa księgarnia TEST AAA",
     "Description": "Nowa księgarnia 10",
