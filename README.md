@@ -6,6 +6,8 @@
 ## Table of Contents
 * [General Info](#general-information)
 * [Technologies Used](#technologies-used)
+* [api request examples](#api-request-examples)
+* [Programming tricks](#programming-tricks)
 * [Contact](#contact)
 
 ## General Information
@@ -20,6 +22,9 @@
 - NLog.Web.AspNetCore 4.12.0
 - washbuckle.AspNetCore 6.1.4
 - MS SQL v2014 (Azure)
+
+## api request examples
+
 
 ## Programming tricks
 - Low level of coupling, modules depend on abstractions (interfaces). Business logic of controllers are located in services which are registered into the dependency injection container.
